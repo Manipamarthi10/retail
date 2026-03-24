@@ -6,7 +6,7 @@ import { CartResponse, CouponValidation, InventoryItem, Order, Product, Promotio
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = 'http://localhost:5000/api';
+  private readonly baseUrl = 'http://localhost:5001/api';
 
   getProducts(filters?: { category?: string; brand?: string }): Observable<Product[]> {
     let params = new HttpParams();

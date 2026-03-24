@@ -10,7 +10,7 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
-  private readonly baseUrl = 'http://localhost:5000/api/auth';
+  private readonly baseUrl = 'http://localhost:5001/api/auth';
   readonly user = signal<User | null>(this.readUser());
 
   register(payload: { name: string; email: string; password: string }) {
