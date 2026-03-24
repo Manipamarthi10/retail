@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
 :root {
   --bg: #fff7f6;
   --surface: #ffffff;
@@ -12,8 +14,6 @@
   --shadow: 0 18px 60px rgba(226, 55, 68, 0.14);
   --radius: 22px;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 
 * {
   box-sizing: border-box;
