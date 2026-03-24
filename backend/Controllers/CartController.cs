@@ -6,13 +6,13 @@ using RetailOrdering.DTOs;
 using RetailOrdering.Extensions;
 
 namespace RetailOrdering.Controllers;
-
+// cart
 [Authorize]
 [ApiController]
 [Route("api/cart")]
 public class CartController(AppDbContext db) : ControllerBase
 {
-    
+
     [HttpGet]
     public async Task<ActionResult<CartResponse>> GetCart()
     {
