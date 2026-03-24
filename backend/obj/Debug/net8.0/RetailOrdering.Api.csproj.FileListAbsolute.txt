@@ -144,21 +144,6 @@ E:\retail\backend\obj\Debug\net8.0\refint\RetailOrdering.Api.dll
 E:\retail\backend\obj\Debug\net8.0\RetailOrdering.Api.pdb
 E:\retail\backend\obj\Debug\net8.0\RetailOrdering.Api.genruntimeconfig.cache
 E:\retail\backend\obj\Debug\net8.0\ref\RetailOrdering.Api.dll
-E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\appsettings.json
-E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\RetailOrdering.Api.staticwebassets.endpoints.json
-E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\RetailOrdering.Api.exe
-E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\RetailOrdering.Api.deps.json
-E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\RetailOrdering.Api.runtimeconfig.json
-E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\RetailOrdering.Api.dll
-E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\RetailOrdering.Api.pdb
-E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\BCrypt.Net-Next.dll
-E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\Humanizer.dll
-E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
-E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
-E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
-E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.dll
-E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
 E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\Microsoft.CodeAnalysis.Workspaces.dll
 E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\Microsoft.Data.Sqlite.dll
 E:\warehouse warriors 3\retail\backend\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
