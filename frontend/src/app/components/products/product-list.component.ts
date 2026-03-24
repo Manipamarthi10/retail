@@ -150,3 +150,4 @@ export class ProductListComponent implements OnInit {
     this.cart.add(product.id, 1).subscribe();
   }
 }
+//commit Productlist
