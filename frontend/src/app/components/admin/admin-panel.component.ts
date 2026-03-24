@@ -68,6 +68,7 @@ import { InventoryItem, Order, Product } from '../../models/api.models';
             <div class="stock-editor">
               <input type="number" [value]="item.stockQty" #stockBox>
               <button type="button" (click)="updateInventory(item.productId, stockBox.value)">Update</button>
+              <button type="button" class="danger" (click)="deleteProduct(item.productId)">Delete</button>
             </div>
           </div>
           <p *ngIf="message()" class="message">{{ message() }}</p>
