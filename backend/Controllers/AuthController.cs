@@ -4,6 +4,7 @@ using RetailOrdering.DTOs;
 using RetailOrdering.Extensions;
 using RetailOrdering.Services;
 //AuthController.cs
+//AuthController.cs
 namespace RetailOrdering.Controllers;
 
 [ApiController]
