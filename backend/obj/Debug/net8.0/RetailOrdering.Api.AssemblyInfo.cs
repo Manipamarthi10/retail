@@ -9,11 +9,11 @@
 
 using System;
 using System.Reflection;
-// General Information about an assembly is controlled through the following
+
 [assembly: System.Reflection.AssemblyCompanyAttribute("RetailOrdering.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d41e80bed39761385dd5b30dc26132a1200dd0d7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5872e93905f159787ae723bec8fe241f193a086a")]
 [assembly: System.Reflection.AssemblyProductAttribute("RetailOrdering.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RetailOrdering.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
