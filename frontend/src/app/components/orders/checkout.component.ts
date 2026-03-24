@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { CartService } from '../../services/cart.service';
 import { ToastService } from '../../services/toast.service';
+import { AuthService } from '../../services/auth.service'; // ✅ FIXED IMPORT
 
 @Component({
   selector: 'app-checkout',
@@ -14,21 +15,46 @@ import { ToastService } from '../../services/toast.service';
     <section class="checkout">
       <div class="panel">
         <h1>Checkout</h1>
+
         <div class="coupon-box">
           <input [(ngModel)]="couponCode" placeholder="Enter coupon code">
           <button type="button" (click)="applyCoupon()">Apply coupon</button>
         </div>
+
         <p *ngIf="couponMessage()" class="message">{{ couponMessage() }}</p>
+
         <ul>
-          <li *ngFor="let item of cart.items">{{ item.productName }} x {{ item.quantity }}</li>
+          <li *ngFor="let item of cart.items">
+            {{ item.productName }} x {{ item.quantity }}
+          </li>
         </ul>
       </div>
 
       <aside class="panel summary">
-        <div class="line"><span>Subtotal</span><strong>{{ cart.subtotal | currency:'INR':'symbol':'1.0-0' }}</strong></div>
-        <div class="line"><span>Discount</span><strong>-{{ discountAmount() | currency:'INR':'symbol':'1.0-0' }}</strong></div>
-        <div class="line total"><span>Total</span><strong>{{ finalAmount() | currency:'INR':'symbol':'1.0-0' }}</strong></div>
-        <button type="button" [disabled]="!cart.items.length || loading() || isAdmin" (click)="placeOrder()" *ngIf="!isAdmin">{{ loading() ? 'Placing order...' : 'Place order' }}</button>
+        <div class="line">
+          <span>Subtotal</span>
+          <strong>{{ cart.subtotal | currency:'INR':'symbol':'1.0-0' }}</strong>
+        </div>
+
+        <div class="line">
+          <span>Discount</span>
+          <strong>-{{ discountAmount() | currency:'INR':'symbol':'1.0-0' }}</strong>
+        </div>
+
+        <div class="line total">
+          <span>Total</span>
+          <strong>{{ finalAmount() | currency:'INR':'symbol':'1.0-0' }}</strong>
+        </div>
+
+        <!-- ✅ hide for admin -->
+        <button 
+          type="button"
+          [disabled]="!cart.items.length || loading() || isAdmin"
+          (click)="placeOrder()"
+          *ngIf="!isAdmin">
+          {{ loading() ? 'Placing order...' : 'Place order' }}
+        </button>
+
         <p *ngIf="error()" class="error">{{ error() }}</p>
       </aside>
     </section>
@@ -43,16 +69,25 @@ import { ToastService } from '../../services/toast.service';
     .total { font-size: 1.2rem; }
     .message { color: var(--success); }
     .error { color: var(--primary-dark); }
-    @media (max-width: 900px) { .checkout { grid-template-columns: 1fr; } .coupon-box { flex-direction: column; } }
+    @media (max-width: 900px) { 
+      .checkout { grid-template-columns: 1fr; } 
+      .coupon-box { flex-direction: column; } 
+    }
   `]
 })
 export class CheckoutComponent implements OnInit {
+
   private readonly api = inject(ApiService);
   private readonly cartService = inject(CartService);
   private readonly router = inject(Router);
   private readonly toast = inject(ToastService);
-  private readonly auth = inject(AuthService);
-  get isAdmin() { return this.auth.isAdmin(); }
+
+  // ✅ FIXED TYPE (removes "unknown" error)
+  private readonly auth: AuthService = inject(AuthService);
+
+  // ✅ cleaner (computed once)
+  readonly isAdmin = this.auth.isAdmin();
+
   couponCode = '';
   readonly discountAmount = signal(0);
   readonly finalAmount = signal(0);
@@ -65,28 +100,34 @@ export class CheckoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cartService.refresh().subscribe((cart) => this.finalAmount.set(cart.subtotal));
+    this.cartService.refresh().subscribe((cart) => {
+      this.finalAmount.set(cart.subtotal);
+    });
   }
 
   applyCoupon(): void {
     this.couponMessage.set('');
+
     if (!this.couponCode.trim()) {
       this.discountAmount.set(0);
       this.finalAmount.set(this.cart.subtotal);
       return;
     }
 
-    this.api.validateCoupon(this.couponCode.trim(), this.cart.subtotal).subscribe((response) => {
-      this.discountAmount.set(response.discountAmount || 0);
-      this.finalAmount.set(response.finalAmount);
-      this.couponMessage.set(response.message);
-    });
+    this.api.validateCoupon(this.couponCode.trim(), this.cart.subtotal)
+      .subscribe((response) => {
+        this.discountAmount.set(response.discountAmount || 0);
+        this.finalAmount.set(response.finalAmount);
+        this.couponMessage.set(response.message);
+      });
   }
 
   placeOrder(): void {
     if (this.isAdmin) return;
+
     this.loading.set(true);
     this.error.set('');
+
     this.api.placeOrder(this.couponCode.trim() || undefined).subscribe({
       next: (order) => {
         this.cartService.storeLastOrder(order);

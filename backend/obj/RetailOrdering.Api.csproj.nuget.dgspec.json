@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\retail\\backend\\RetailOrdering.Api.csproj": {}
+    "D:\\hcl\\retail\\backend\\RetailOrdering.Api.csproj": {}
   },
   "projects": {
-    "E:\\retail\\backend\\RetailOrdering.Api.csproj": {
+    "D:\\hcl\\retail\\backend\\RetailOrdering.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\retail\\backend\\RetailOrdering.Api.csproj",
+        "projectUniqueName": "D:\\hcl\\retail\\backend\\RetailOrdering.Api.csproj",
         "projectName": "RetailOrdering.Api",
-        "projectPath": "E:\\retail\\backend\\RetailOrdering.Api.csproj",
+        "projectPath": "D:\\hcl\\retail\\backend\\RetailOrdering.Api.csproj",
         "packagesPath": "C:\\Users\\a$us\\.nuget\\packages\\",
-        "outputPath": "E:\\retail\\backend\\obj\\",
+        "outputPath": "D:\\hcl\\retail\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\a$us\\AppData\\Roaming\\NuGet\\NuGet.Config"

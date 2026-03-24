@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { CartService } from '../../services/cart.service';
+import { AuthService } from '../../services/auth.service'; // ✅ FIXED IMPORT
 import { Order } from '../../models/api.models';
 
 @Component({
@@ -25,15 +26,24 @@ import { Order } from '../../models/api.models';
           </div>
           <div class="status">{{ order.status }}</div>
         </div>
+
         <div class="items">
           <div *ngFor="let item of order.items" class="line">
             <span>{{ item.productName }} x {{ item.quantity }}</span>
             <strong>{{ item.lineTotal | currency:'INR':'symbol':'1.0-0' }}</strong>
           </div>
         </div>
+
         <div class="footer">
           <strong>{{ order.totalAmount | currency:'INR':'symbol':'1.0-0' }}</strong>
-          <button type="button" (click)="reorder(order)" *ngIf="!isAdmin">Quick reorder</button>
+
+          <!-- ✅ Only show for non-admin -->
+          <button 
+            type="button" 
+            (click)="reorder(order)" 
+            *ngIf="!isAdmin">
+            Quick reorder
+          </button>
         </div>
       </article>
     </section>
@@ -48,10 +58,14 @@ import { Order } from '../../models/api.models';
   `]
 })
 export class OrderHistoryComponent implements OnInit {
+
   private readonly api = inject(ApiService);
   private readonly cart = inject(CartService);
-  private readonly auth = inject(AuthService);
-  get isAdmin() { return this.auth.isAdmin(); }
+  private readonly auth: AuthService = inject(AuthService); // ✅ FIXED TYPE
+
+  // ✅ cleaner: computed once
+  readonly isAdmin = this.auth.isAdmin();
+
   readonly orders = signal<Order[]>([]);
 
   ngOnInit(): void {
@@ -60,6 +74,7 @@ export class OrderHistoryComponent implements OnInit {
 
   reorder(order: Order): void {
     if (this.isAdmin) return;
+
     order.items.forEach((item) => {
       this.cart.add(item.productId, item.quantity).subscribe();
     });
