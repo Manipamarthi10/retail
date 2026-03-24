@@ -3205,24 +3205,31 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\a$us\\.nuget\\packages\\": {}
+    "C:\\Users\\Teja\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\hcl\\retail\\backend\\RetailOrdering.Api.csproj",
+      "projectUniqueName": "E:\\warehouse warriors 3\\retail\\backend\\RetailOrdering.Api.csproj",
       "projectName": "RetailOrdering.Api",
-      "projectPath": "D:\\hcl\\retail\\backend\\RetailOrdering.Api.csproj",
-      "packagesPath": "C:\\Users\\a$us\\.nuget\\packages\\",
-      "outputPath": "D:\\hcl\\retail\\backend\\obj\\",
+      "projectPath": "E:\\warehouse warriors 3\\retail\\backend\\RetailOrdering.Api.csproj",
+      "packagesPath": "C:\\Users\\Teja\\.nuget\\packages\\",
+      "outputPath": "E:\\warehouse warriors 3\\retail\\backend\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\a$us\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Teja\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
