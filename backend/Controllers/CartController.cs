@@ -12,6 +12,7 @@ namespace RetailOrdering.Controllers;
 [Route("api/cart")]
 public class CartController(AppDbContext db) : ControllerBase
 {
+    
     [HttpGet]
     public async Task<ActionResult<CartResponse>> GetCart()
     {
