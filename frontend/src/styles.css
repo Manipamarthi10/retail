@@ -13,6 +13,8 @@
   --radius: 22px;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
 * {
   box-sizing: border-box;
 }
@@ -24,11 +26,42 @@ html, body {
     radial-gradient(circle at top left, rgba(255, 180, 143, 0.45), transparent 25%),
     linear-gradient(180deg, #fff8f4 0%, #fff4f1 50%, #fffdfc 100%);
   color: var(--ink);
-  font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+  font-family: "Manrope", "Segoe UI", sans-serif;
 }
 
 body {
   min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(2px);
+}
+
+body::before {
+  width: 360px;
+  height: 360px;
+  top: -130px;
+  right: -80px;
+  border-radius: 42% 58% 70% 30% / 40% 42% 58% 60%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 180, 143, 0.95), rgba(226, 55, 68, 0.28) 68%, rgba(226, 55, 68, 0) 100%);
+  animation: floatBlobA 12s ease-in-out infinite;
+}
+
+body::after {
+  width: 280px;
+  height: 280px;
+  bottom: -110px;
+  left: -70px;
+  border-radius: 63% 37% 44% 56% / 51% 48% 52% 49%;
+  background: radial-gradient(circle at 60% 40%, rgba(255, 230, 189, 0.88), rgba(255, 156, 108, 0.35) 70%, rgba(255, 156, 108, 0) 100%);
+  animation: floatBlobB 14s ease-in-out infinite;
 }
 
 a {
@@ -38,4 +71,49 @@ a {
 
 button, input, select, textarea {
   font: inherit;
+}
+
+button {
+  transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(226, 55, 68, 0.2);
+}
+
+@keyframes floatBlobA {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(14px) rotate(4deg);
+  }
+}
+
+@keyframes floatBlobB {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(-5deg);
+  }
+}
+
+@media (max-width: 768px) {
+  body::before {
+    width: 240px;
+    height: 240px;
+    top: -80px;
+    right: -70px;
+  }
+
+  body::after {
+    width: 190px;
+    height: 190px;
+    bottom: -70px;
+    left: -60px;
+  }
 }
