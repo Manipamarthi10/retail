@@ -13,7 +13,7 @@ public static class DbSeeder
                 {
                     Name = "Admin User",
                     Email = "admin@retail.com",
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123"),
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@1234"),
                     Role = Roles.Admin,
                     LoyaltyPoints = 250,
                     CreatedAt = DateTime.UtcNow
@@ -22,7 +22,7 @@ public static class DbSeeder
                 {
                     Name = "Demo Customer",
                     Email = "customer@retail.com",
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Customer@123"),
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Customer@1234"),
                     Role = Roles.Customer,
                     LoyaltyPoints = 40,
                     CreatedAt = DateTime.UtcNow

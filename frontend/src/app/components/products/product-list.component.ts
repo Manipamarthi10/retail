@@ -15,14 +15,25 @@ import { CartService } from '../../services/cart.service';
     <section class="filters">
       <div>
         <h1>Browse Products</h1>
-        <p>Filter by category or brand and add items straight into the persistent cart.</p>
+        <p>Filter by category, brand, or search by name/description.</p>
       </div>
       <div class="filter-controls">
-        <select [(ngModel)]="category" (ngModelChange)="applyFilters()">
+        <input
+          type="text"
+          [(ngModel)]="search"
+          (ngModelChange)="applyFilters()"
+          placeholder="Search products..."
+          class="search-box"
+        />
+        <label class="search-toggle">
+          <input type="checkbox" [(ngModel)]="globalSearch" (change)="applyFilters()" />
+          Search in all categories/brands
+        </label>
+        <select [(ngModel)]="category" (ngModelChange)="applyFilters()" [disabled]="globalSearch">
           <option value="">All categories</option>
           <option *ngFor="let item of categories" [value]="item">{{ item }}</option>
         </select>
-        <select [(ngModel)]="brand" (ngModelChange)="applyFilters()">
+        <select [(ngModel)]="brand" (ngModelChange)="applyFilters()" [disabled]="globalSearch">
           <option value="">All brands</option>
           <option *ngFor="let item of brands()" [value]="item">{{ item }}</option>
         </select>
@@ -40,7 +51,7 @@ import { CartService } from '../../services/cart.service';
         <div class="meta">{{ product.brand }} • {{ product.packaging }}</div>
         <div class="bottom">
           <strong>{{ product.price | currency:'INR':'symbol':'1.0-0' }}</strong>
-          <button type="button" [disabled]="product.stockQty === 0" (click)="add(product)">Add to cart</button>
+          <button type="button" [disabled]="product.stockQty === 0 || isAdmin" (click)="add(product)" *ngIf="!isAdmin">Add to cart</button>
         </div>
       </article>
     </section>
@@ -48,7 +59,22 @@ import { CartService } from '../../services/cart.service';
   styles: [`
     .filters, .card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); }
     .filters { display: flex; justify-content: space-between; gap: 1rem; align-items: end; padding: 1.5rem; margin-bottom: 1.5rem; }
-    .filter-controls { display: flex; gap: 0.8rem; }
+    .filter-controls { display: flex; gap: 0.8rem; align-items: center; }
+    .search-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.98rem;
+      color: var(--muted);
+      user-select: none;
+    }
+    .search-box {
+      min-width: 220px;
+      padding: 0.9rem 1rem;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: white;
+    }
     select {
       min-width: 190px; padding: 0.9rem 1rem; border-radius: 14px; border: 1px solid var(--line); background: white;
     }
@@ -84,6 +110,9 @@ export class ProductListComponent implements OnInit {
   readonly categories = ['Pizza', 'Cold Drinks', 'Breads'];
   category = '';
   brand = '';
+  search = '';
+  globalSearch = false;
+  get isAdmin() { return this.auth.isAdmin(); }
 
   ngOnInit(): void {
     this.api.getProducts().subscribe((products) => {
@@ -97,10 +126,18 @@ export class ProductListComponent implements OnInit {
   }
 
   applyFilters(): void {
+    const searchLower = this.search.trim().toLowerCase();
     this.products.set(this.allProducts().filter((product) => {
+      const matchesSearch = !searchLower ||
+        product.name.toLowerCase().includes(searchLower) ||
+        product.description.toLowerCase().includes(searchLower);
+      if (this.globalSearch) {
+        return matchesSearch;
+      }
       const matchesCategory = !this.category || product.category === this.category;
       const matchesBrand = !this.brand || product.brand === this.brand;
-      return matchesCategory && matchesBrand;
+      // Only show if matches search AND matches filters
+      return matchesSearch && matchesCategory && matchesBrand;
     }));
   }
 

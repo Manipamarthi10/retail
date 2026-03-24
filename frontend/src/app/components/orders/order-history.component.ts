@@ -33,7 +33,7 @@ import { Order } from '../../models/api.models';
         </div>
         <div class="footer">
           <strong>{{ order.totalAmount | currency:'INR':'symbol':'1.0-0' }}</strong>
-          <button type="button" (click)="reorder(order)">Quick reorder</button>
+          <button type="button" (click)="reorder(order)" *ngIf="!isAdmin">Quick reorder</button>
         </div>
       </article>
     </section>
@@ -50,6 +50,8 @@ import { Order } from '../../models/api.models';
 export class OrderHistoryComponent implements OnInit {
   private readonly api = inject(ApiService);
   private readonly cart = inject(CartService);
+  private readonly auth = inject(AuthService);
+  get isAdmin() { return this.auth.isAdmin(); }
   readonly orders = signal<Order[]>([]);
 
   ngOnInit(): void {
@@ -57,6 +59,7 @@ export class OrderHistoryComponent implements OnInit {
   }
 
   reorder(order: Order): void {
+    if (this.isAdmin) return;
     order.items.forEach((item) => {
       this.cart.add(item.productId, item.quantity).subscribe();
     });

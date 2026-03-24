@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { CartService } from '../../services/cart.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-checkout',
@@ -27,7 +28,7 @@ import { CartService } from '../../services/cart.service';
         <div class="line"><span>Subtotal</span><strong>{{ cart.subtotal | currency:'INR':'symbol':'1.0-0' }}</strong></div>
         <div class="line"><span>Discount</span><strong>-{{ discountAmount() | currency:'INR':'symbol':'1.0-0' }}</strong></div>
         <div class="line total"><span>Total</span><strong>{{ finalAmount() | currency:'INR':'symbol':'1.0-0' }}</strong></div>
-        <button type="button" [disabled]="!cart.items.length || loading()" (click)="placeOrder()">{{ loading() ? 'Placing order...' : 'Place order' }}</button>
+        <button type="button" [disabled]="!cart.items.length || loading() || isAdmin" (click)="placeOrder()" *ngIf="!isAdmin">{{ loading() ? 'Placing order...' : 'Place order' }}</button>
         <p *ngIf="error()" class="error">{{ error() }}</p>
       </aside>
     </section>
@@ -49,6 +50,9 @@ export class CheckoutComponent implements OnInit {
   private readonly api = inject(ApiService);
   private readonly cartService = inject(CartService);
   private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
+  private readonly auth = inject(AuthService);
+  get isAdmin() { return this.auth.isAdmin(); }
   couponCode = '';
   readonly discountAmount = signal(0);
   readonly finalAmount = signal(0);
@@ -80,17 +84,21 @@ export class CheckoutComponent implements OnInit {
   }
 
   placeOrder(): void {
+    if (this.isAdmin) return;
     this.loading.set(true);
     this.error.set('');
     this.api.placeOrder(this.couponCode.trim() || undefined).subscribe({
       next: (order) => {
         this.cartService.storeLastOrder(order);
         this.loading.set(false);
+        this.toast.success('Order placed successfully!');
         void this.router.navigate(['/order-confirmation']);
       },
       error: (err) => {
         this.loading.set(false);
-        this.error.set(err.error?.message ?? 'Could not place order.');
+        const errorMsg = err.error?.message ?? 'Could not place order.';
+        this.error.set(errorMsg);
+        this.toast.error(errorMsg);
       }
     });
   }

@@ -47,6 +47,10 @@ export class ApiService {
     return this.http.get<Order[]>(`${this.baseUrl}/orders`);
   }
 
+  getAllOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.baseUrl}/orders/all`);
+  }
+
   validateCoupon(code: string, amount: number): Observable<CouponValidation> {
     return this.http.post<CouponValidation>(`${this.baseUrl}/coupons/validate`, { code, amount });
   }

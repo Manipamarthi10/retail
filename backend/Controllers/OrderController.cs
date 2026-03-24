@@ -17,6 +17,8 @@ public class OrderController(AppDbContext db, IOrderService orderService) : Cont
     [HttpPost]
     public async Task<ActionResult<OrderResponse>> Create([FromBody] CreateOrderRequest request)
     {
+        if (User.GetUserRole() == Models.Roles.Admin)
+            return Forbid();
         try
         {
             return Ok(await orderService.CreateOrderAsync(User.GetUserId(), request));

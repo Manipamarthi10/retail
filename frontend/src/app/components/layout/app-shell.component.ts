@@ -3,11 +3,12 @@ import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
+import { ToastComponent } from '../toast/toast.component';
 
 @Component({
   selector: 'app-shell',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, RouterOutlet],
+  imports: [CommonModule, RouterLink, RouterLinkActive, RouterOutlet, ToastComponent],
   template: `
     <div class="shell">
       <header class="topbar">
@@ -22,8 +23,8 @@ import { CartService } from '../../services/cart.service';
         <nav class="nav">
           <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
           <a routerLink="/products" routerLinkActive="active">Products</a>
-          <a *ngIf="auth.isLoggedIn()" routerLink="/cart" routerLinkActive="active">Cart ({{ cartCount() }})</a>
-          <a *ngIf="auth.isLoggedIn()" routerLink="/orders" routerLinkActive="active">Orders</a>
+          <a *ngIf="auth.isLoggedIn() && !auth.isAdmin()" routerLink="/cart" routerLinkActive="active">Cart ({{ cartCount() }})</a>
+          <a *ngIf="auth.isLoggedIn() && !auth.isAdmin()" routerLink="/orders" routerLinkActive="active">Orders</a>
           <a *ngIf="auth.isLoggedIn()" routerLink="/profile" routerLinkActive="active">Profile</a>
           <a *ngIf="auth.isAdmin()" routerLink="/admin" routerLinkActive="active">Admin</a>
           <a *ngIf="!auth.isLoggedIn()" routerLink="/login" routerLinkActive="active">Login</a>
@@ -35,6 +36,8 @@ import { CartService } from '../../services/cart.service';
       <main class="content">
         <router-outlet></router-outlet>
       </main>
+
+      <app-toast></app-toast>
     </div>
   `,
   styles: [`

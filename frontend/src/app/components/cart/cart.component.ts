@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, computed, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-cart',
@@ -17,7 +18,7 @@ import { CartService } from '../../services/cart.service';
             <p>{{ item.brand }} • {{ item.packaging }}</p>
             <small>{{ item.price | currency:'INR':'symbol':'1.0-0' }} each</small>
           </div>
-          <div class="actions">
+          <div class="actions" *ngIf="!isAdmin">
             <button type="button" (click)="changeQty(item.id, item.quantity - 1)">-</button>
             <span>{{ item.quantity }}</span>
             <button type="button" (click)="changeQty(item.id, item.quantity + 1)">+</button>
@@ -35,8 +36,8 @@ import { CartService } from '../../services/cart.service';
         <h2>Summary</h2>
         <div class="summary-line"><span>Items</span><strong>{{ itemCount() }}</strong></div>
         <div class="summary-line"><span>Subtotal</span><strong>{{ cart.subtotal | currency:'INR':'symbol':'1.0-0' }}</strong></div>
-        <button type="button" [disabled]="!cart.items.length" (click)="checkout()">Proceed to checkout</button>
-        <button type="button" class="ghost" [disabled]="!cart.items.length" (click)="clear()">Clear cart</button>
+        <button type="button" [disabled]="!cart.items.length || isAdmin" (click)="checkout()" *ngIf="!isAdmin">Proceed to checkout</button>
+        <button type="button" class="ghost" [disabled]="!cart.items.length || isAdmin" (click)="clear()" *ngIf="!isAdmin">Clear cart</button>
       </aside>
     </section>
   `,
@@ -63,29 +64,36 @@ import { CartService } from '../../services/cart.service';
 export class CartComponent implements OnInit {
   private readonly cartService = inject(CartService);
   private readonly router = inject(Router);
+  private readonly auth = inject(AuthService);
   readonly itemCount = computed(() => this.cartService.cart().items.reduce((sum, item) => sum + item.quantity, 0));
 
   get cart() {
     return this.cartService.cart();
   }
 
+  get isAdmin() { return this.auth.isAdmin(); }
+
   ngOnInit(): void {
     this.cartService.refresh().subscribe();
   }
 
   changeQty(cartItemId: number, quantity: number): void {
+    if (this.isAdmin) return;
     this.cartService.update(cartItemId, quantity).subscribe();
   }
 
   remove(id: number): void {
+    if (this.isAdmin) return;
     this.cartService.remove(id).subscribe();
   }
 
   clear(): void {
+    if (this.isAdmin) return;
     this.cartService.clear().subscribe();
   }
 
   checkout(): void {
+    if (this.isAdmin) return;
     void this.router.navigate(['/checkout']);
   }
 }

@@ -13,4 +13,9 @@ public static class ClaimsPrincipalExtensions
             ? userId
             : throw new UnauthorizedAccessException("Invalid user context.");
     }
+    public static string GetUserRole(this ClaimsPrincipal user)
+    {
+        return user.FindFirst(ClaimTypes.Role)?.Value
+            ?? throw new UnauthorizedAccessException("Role claim missing.");
+    }
 }

@@ -12,6 +12,7 @@ import { OrderSuccessComponent } from './components/orders/order-success.compone
 import { OrderHistoryComponent } from './components/orders/order-history.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AdminPanelComponent } from './components/admin/admin-panel.component';
+import { notAdminGuard } from './guards/not-admin.guard';
 
 export const routes: Routes = [
   {
@@ -22,10 +23,10 @@ export const routes: Routes = [
       { path: 'products', component: ProductListComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'cart', component: CartComponent, canActivate: [authGuard] },
-      { path: 'checkout', component: CheckoutComponent, canActivate: [authGuard] },
-      { path: 'order-confirmation', component: OrderSuccessComponent, canActivate: [authGuard] },
-      { path: 'orders', component: OrderHistoryComponent, canActivate: [authGuard] },
+      { path: 'cart', component: CartComponent, canActivate: [authGuard, notAdminGuard] },
+      { path: 'checkout', component: CheckoutComponent, canActivate: [authGuard, notAdminGuard] },
+      { path: 'order-confirmation', component: OrderSuccessComponent, canActivate: [authGuard, notAdminGuard] },
+      { path: 'orders', component: OrderHistoryComponent, canActivate: [authGuard, notAdminGuard] },
       { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
       { path: 'admin', component: AdminPanelComponent, canActivate: [adminGuard] }
     ]

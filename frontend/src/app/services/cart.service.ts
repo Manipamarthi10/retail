@@ -2,10 +2,12 @@ import { Injectable, inject, signal } from '@angular/core';
 import { tap } from 'rxjs';
 import { ApiService } from './api.service';
 import { CartResponse, Order } from '../models/api.models';
+import { ToastService } from './toast.service';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
   private readonly api = inject(ApiService);
+  private readonly toast = inject(ToastService);
   readonly cart = signal<CartResponse>({ items: [], subtotal: 0 });
   readonly lastOrder = signal<Order | null>(this.readLastOrder());
 
@@ -14,7 +16,12 @@ export class CartService {
   }
 
   add(productId: number, quantity: number) {
-    return this.api.addToCart(productId, quantity).pipe(tap((cart) => this.cart.set(cart)));
+    return this.api.addToCart(productId, quantity).pipe(
+      tap((cart) => {
+        this.cart.set(cart);
+        this.toast.success(`Added to cart!`);
+      })
+    );
   }
 
   update(cartItemId: number, quantity: number) {

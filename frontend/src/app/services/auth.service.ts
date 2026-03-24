@@ -3,23 +3,31 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { AuthResponse, User } from '../models/api.models';
+import { ToastService } from './toast.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
   private readonly baseUrl = 'http://localhost:5000/api/auth';
   readonly user = signal<User | null>(this.readUser());
 
   register(payload: { name: string; email: string; password: string }) {
     return this.http.post<AuthResponse>(`${this.baseUrl}/register`, payload).pipe(
-      tap((response) => this.persistSession(response))
+      tap((response) => {
+        this.persistSession(response);
+        this.toast.success('Account created successfully!');
+      })
     );
   }
 
   login(payload: { email: string; password: string }) {
     return this.http.post<AuthResponse>(`${this.baseUrl}/login`, payload).pipe(
-      tap((response) => this.persistSession(response))
+      tap((response) => {
+        this.persistSession(response);
+        this.toast.success(`Welcome, ${response.user.name}!`);
+      })
     );
   }
 
@@ -46,6 +54,7 @@ export class AuthService {
     localStorage.removeItem('retail_user');
     localStorage.removeItem('retail_last_order');
     this.user.set(null);
+    this.toast.success('Logged out successfully!');
     void this.router.navigate(['/login']);
   }
 

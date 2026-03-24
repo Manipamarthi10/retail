@@ -128,6 +128,7 @@ E:\retail\backend\obj\Debug\net8.0\RetailOrdering.Api.AssemblyInfo.cs
 E:\retail\backend\obj\Debug\net8.0\RetailOrdering.Api.csproj.CoreCompileInputs.cache
 E:\retail\backend\obj\Debug\net8.0\RetailOrdering.Api.MvcApplicationPartsAssemblyInfo.cs
 E:\retail\backend\obj\Debug\net8.0\RetailOrdering.Api.MvcApplicationPartsAssemblyInfo.cache
+E:\retail\backend\obj\Debug\net8.0\RetailOrdering.Api.sourcelink.json
 E:\retail\backend\obj\Debug\net8.0\rjimswa.dswa.cache.json
 E:\retail\backend\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 E:\retail\backend\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json

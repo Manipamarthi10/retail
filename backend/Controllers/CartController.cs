@@ -15,12 +15,16 @@ public class CartController(AppDbContext db) : ControllerBase
     [HttpGet]
     public async Task<ActionResult<CartResponse>> GetCart()
     {
+        if (User.GetUserRole() == Models.Roles.Admin)
+            return Forbid();
         return Ok(await BuildCartResponse(User.GetUserId()));
     }
 
     [HttpPost("add")]
     public async Task<ActionResult<CartResponse>> Add([FromBody] AddCartItemRequest request)
     {
+        if (User.GetUserRole() == Models.Roles.Admin)
+            return Forbid();
         var userId = User.GetUserId();
         var product = await db.Products.Include(item => item.Inventory).FirstOrDefaultAsync(item => item.Id == request.ProductId && item.IsActive);
         if (product is null)
@@ -61,6 +65,8 @@ public class CartController(AppDbContext db) : ControllerBase
     [HttpPut("update")]
     public async Task<ActionResult<CartResponse>> Update([FromBody] UpdateCartItemRequest request)
     {
+        if (User.GetUserRole() == Models.Roles.Admin)
+            return Forbid();
         var userId = User.GetUserId();
         var cartItem = await db.CartItems
             .Include(item => item.Product)
@@ -93,6 +99,8 @@ public class CartController(AppDbContext db) : ControllerBase
     [HttpDelete("remove/{id:int}")]
     public async Task<ActionResult<CartResponse>> Remove(int id)
     {
+        if (User.GetUserRole() == Models.Roles.Admin)
+            return Forbid();
         var userId = User.GetUserId();
         var item = await db.CartItems.FirstOrDefaultAsync(cartItem => cartItem.Id == id && cartItem.UserId == userId);
         if (item is null)
@@ -108,6 +116,8 @@ public class CartController(AppDbContext db) : ControllerBase
     [HttpDelete("clear")]
     public async Task<ActionResult<ApiMessageResponse>> Clear()
     {
+        if (User.GetUserRole() == Models.Roles.Admin)
+            return Forbid();
         var userId = User.GetUserId();
         var items = await db.CartItems.Where(item => item.UserId == userId).ToListAsync();
         db.CartItems.RemoveRange(items);
