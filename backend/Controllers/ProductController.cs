@@ -7,6 +7,7 @@ using RetailOrdering.Models;
 
 namespace RetailOrdering.Controllers;
 
+
 [ApiController]
 [Route("api/products")]
 public class ProductController(AppDbContext db) : ControllerBase
@@ -166,3 +167,4 @@ public class ProductController(AppDbContext db) : ControllerBase
         return Ok(new ApiMessageResponse { Message = "Product deleted successfully." });
     }
 }
+//Commit ProductController
